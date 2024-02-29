@@ -11,8 +11,8 @@ class AlbumRepository {
     private val albums: MutableList<AlbumDto> = mutableListOf(
         AlbumDto("1", "Блэкаут", "https://images.genius.com/c3a120256bfd8d380df0a38e238b11c4.1000x1000x1.jpg",
             "Операция пластилин"),
-        AlbumDto("2", "Scaled and Icy",  "URL2", ""),
-        AlbumDto("3", "Punisher", "URL3", ""),
+        AlbumDto("2", "Scaled and Icy",  "URL2", "Twenty One Pilots"),
+        AlbumDto("3", "Punisher", "URL3", "Phoebe Bridgers"),
         AlbumDto("4", "Innuendo", "URL4", "Queen")
     )
 

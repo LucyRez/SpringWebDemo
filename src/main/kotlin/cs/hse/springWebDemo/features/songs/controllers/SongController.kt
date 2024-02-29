@@ -29,7 +29,7 @@ class SongController(val songService: AlbumService) {
     fun postASong(@RequestBody song: SongDto) : ResponseEntity<String> {
         val resp = songService.tryAddSong(song)
         if (resp.contains("ERROR")) {
-            ResponseEntity.badRequest().body(resp)
+            ResponseEntity.badRequest().body(String)
         }
 
         return ResponseEntity.ok(resp)
