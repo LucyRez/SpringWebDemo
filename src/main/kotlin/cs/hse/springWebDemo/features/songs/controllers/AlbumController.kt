@@ -15,18 +15,17 @@ class AlbumController (private val albumService: AlbumService) {
         return ResponseEntity.ok(albumService.retrieveAlbums())
     }
 
-    @GetMapping("/get")
-    fun getAlbumWithId(@RequestParam id: String) : ResponseEntity<AlbumDto> {
-        val album = albumService.retrieveAlbumById(id)
+    @GetMapping("/get/{id}")
+    fun getAlbumWithId(@PathVariable id: String) : ResponseEntity<AlbumDto> {
+        val album = albumService.retrieveAlbumById(id) ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(album)
-
     }
 
     @PostMapping("/add")
     fun postAnAlbum(@RequestBody album: AlbumDto) : ResponseEntity<String> {
         val resp = albumService.tryAddAlbum(album)
         if (resp.contains("ERROR")) {
-            ResponseEntity.badRequest().body(resp)
+            return ResponseEntity.badRequest().body(resp)
         }
 
         return ResponseEntity.ok(resp)
