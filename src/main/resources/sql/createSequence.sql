@@ -1,0 +1,4 @@
+CREATE SEQUENCE album_gen
+;
+
+CREATE SEQUENCE song_gen;

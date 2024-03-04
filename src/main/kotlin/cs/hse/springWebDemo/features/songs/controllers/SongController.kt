@@ -1,7 +1,7 @@
 package cs.hse.springWebDemo.features.songs.controllers
 
 import cs.hse.springWebDemo.features.songs.dto.SongDto
-import cs.hse.springWebDemo.features.songs.services.AlbumService
+import cs.hse.springWebDemo.features.songs.services.SongService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import kotlin.Exception
 
 @RestController
 @RequestMapping("/music/songs")
-class SongController(val songService: AlbumService) {
+class SongController(val songService: SongService) {
 
     @GetMapping
     fun getAllSongs() : ResponseEntity<List<SongDto>> {
@@ -21,18 +22,25 @@ class SongController(val songService: AlbumService) {
     }
 
     @GetMapping("/get/{id}")
-    fun getSongWithId(@PathVariable("id") id: String) : ResponseEntity<SongDto> {
+    fun getSongWithId(@PathVariable("id") id: Long) : ResponseEntity<SongDto> {
         val song = songService.retrieveSongById(id) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(song.get())
+    }
+
+    @GetMapping("/get")
+    fun getSongByArtist(@RequestParam title: String) : ResponseEntity<SongDto> {
+        val song = songService.retrieveSongByTitle(title).first()
         return ResponseEntity.ok(song)
     }
 
     @PostMapping("/add")
     fun postASong(@RequestBody song: SongDto) : ResponseEntity<String> {
-        val resp = songService.tryAddSong(song)
-        if (resp.contains("ERROR")) {
-            return ResponseEntity.badRequest().body(resp)
+        return try {
+            val resp = songService.tryAddSong(song)
+            ResponseEntity.ok(resp.toString())
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().build()
         }
 
-        return ResponseEntity.ok(resp)
     }
 }

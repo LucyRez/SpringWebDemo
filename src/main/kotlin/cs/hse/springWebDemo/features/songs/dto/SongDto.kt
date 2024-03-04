@@ -1,7 +1,8 @@
 package cs.hse.springWebDemo.features.songs.dto
 
+import java.util.UUID
+
 data class SongDto (
-    val id: String,
     val title: String,
-    val albumId: String
+    val albumId: Long
 )
